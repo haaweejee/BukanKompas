@@ -1,9 +1,7 @@
 package id.haweje.bukankompas.core.data.source.local
 
 import androidx.lifecycle.LiveData
-import id.haweje.bukankompas.core.data.source.local.entity.BookmarkEntity
-import id.haweje.bukankompas.core.data.source.local.entity.HeadlinesEntity
-import id.haweje.bukankompas.core.data.source.local.entity.TechEntity
+import id.haweje.bukankompas.core.data.source.local.entity.LocalNewsEntity
 import id.haweje.bukankompas.core.data.source.local.room.NewsDao
 
 class LocalDataSource private constructor(private val mNewsDao: NewsDao){
@@ -15,17 +13,13 @@ class LocalDataSource private constructor(private val mNewsDao: NewsDao){
             INSTANCE ?: LocalDataSource(newsDao)
     }
 
-    fun getIndonesiaNewsList() : LiveData<List<HeadlinesEntity>> = mNewsDao.getIndonesiaNewsList()
+    fun getIndonesiaNewsList() : LiveData<List<LocalNewsEntity>> = mNewsDao.getIndonesiaNewsList()
 
-    fun getIndonesiaTechNewsList() : LiveData<List<TechEntity>> = mNewsDao.getIndonesiaTechNewsList()
+    fun getBookmarkedNewsList() : LiveData<List<LocalNewsEntity>> = mNewsDao.getBookmarkedNews()
 
-    fun getBookmarkedNewsList() : LiveData<List<BookmarkEntity>> = mNewsDao.getBookmarkedNews()
+    fun insertIndonesiaNewsList(news: List<LocalNewsEntity>) = mNewsDao.insertIndonesiaNewsList(news)
 
-    fun insertIndonesiaNewsList(news: List<HeadlinesEntity>) = mNewsDao.insertIndonesiaNewsList(news)
-
-    fun insertIndonesiaTechNewsList(news: List<TechEntity>) = mNewsDao.insertIndonesiaTechNewsList(news)
-
-    fun setBookmarkNews(news: BookmarkEntity, bookmarked : Boolean){
+    fun setBookmarkNews(news: LocalNewsEntity, bookmarked : Boolean){
         news.bookmarked = bookmarked
         mNewsDao.updateNews(news)
     }

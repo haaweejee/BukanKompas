@@ -11,11 +11,4 @@ interface NewsApi {
         @Query("country") countryCode : String = "id",
         @Query("apiKey") apiKey : String = "996c55497a7e444494bccc36ff3cb97a"
     ): Call<NewsResponse>
-
-    @GET("v2/top-headlines")
-    fun getAllTechNewsIndonesia(
-        @Query("country") countryCode : String = "id",
-        @Query("category") category : String = "technology",
-        @Query("apiKey") apiKey : String = "996c55497a7e444494bccc36ff3cb97a"
-    ): Call<NewsResponse>
 }

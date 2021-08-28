@@ -4,15 +4,9 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import id.haweje.bukankompas.core.data.source.local.entity.BookmarkEntity
-import id.haweje.bukankompas.core.data.source.local.entity.HeadlinesEntity
-import id.haweje.bukankompas.core.data.source.local.entity.TechEntity
+import id.haweje.bukankompas.core.data.source.local.entity.LocalNewsEntity
 
-@Database(entities = [
-    HeadlinesEntity::class,
-    TechEntity::class,
-    BookmarkEntity::class
-                     ], version = 1, exportSchema = false)
+@Database(entities = [ LocalNewsEntity::class ], version = 1, exportSchema = false)
 abstract class NewsDatabase : RoomDatabase() {
     abstract fun newsDao() : NewsDao
 

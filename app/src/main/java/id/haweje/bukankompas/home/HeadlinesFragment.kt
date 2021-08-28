@@ -1,4 +1,4 @@
-package id.haweje.bukankompas.home.headlines
+package id.haweje.bukankompas.home
 
 import android.content.Intent
 import android.os.Bundle
@@ -13,13 +13,12 @@ import id.haweje.bukankompas.core.ui.ListAdapter
 import id.haweje.bukankompas.core.ui.OnItemClickNewsCallback
 import id.haweje.bukankompas.core.utils.ViewModelFactory
 import id.haweje.bukankompas.core.vo.Status
-import id.haweje.bukankompas.databinding.FragmentHeadlinesBinding
+import id.haweje.bukankompas.databinding.FragmentHomeBinding
 import id.haweje.bukankompas.detail.DetailActivity
-import id.haweje.bukankompas.home.NewsViewModel
 
-class HeadlinesFragment : Fragment(R.layout.fragment_headlines) {
+class HeadlinesFragment : Fragment(R.layout.fragment_home) {
 
-    private var _binding : FragmentHeadlinesBinding? = null
+    private var _binding : FragmentHomeBinding? = null
     private lateinit var newsViewModel: NewsViewModel
     private lateinit var listAdapter: ListAdapter
     private val binding get() = _binding
@@ -32,22 +31,14 @@ class HeadlinesFragment : Fragment(R.layout.fragment_headlines) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        _binding = FragmentHeadlinesBinding.bind(view)
+        _binding = FragmentHomeBinding.bind(view)
 
         listAdapter = ListAdapter()
         listAdapter.notifyDataSetChanged()
         listAdapter.setOnItemClick(object : OnItemClickNewsCallback{
             override fun onItemClickedNews(news: LocalNewsEntity) {
                 Intent(activity, DetailActivity::class.java).also{
-                    it.putExtra(DetailActivity.EXTRA_TITLE, news.title)
-                    it.putExtra(DetailActivity.EXTRA_DESC, news.description)
-                    it.putExtra(DetailActivity.EXTRA_IMAGE, news.urlToImage)
-                    it.putExtra(DetailActivity.EXTRA_AUTHOR, news.author)
-                    it.putExtra(DetailActivity.EXTRA_DATE, news.publishedAt)
-                    it.putExtra(DetailActivity.EXTRA_CONTENT, news.content)
-                    it.putExtra(DetailActivity.EXTRA_URL, news.url)
-                    it.putExtra(DetailActivity.EXTRA_ID, news.id)
-
+                    it.putExtra(DetailActivity.EXTRA_DATA, news)
                     startActivity(it)
                 }
             }
