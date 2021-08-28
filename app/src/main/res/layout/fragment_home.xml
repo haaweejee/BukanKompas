@@ -4,27 +4,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".home.HomeFragment">
+    tools:context=".home.HeadlinesFragment">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabs"
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_news"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/item_news_card"/>
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/progress_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/colorPrimary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tabIndicatorColor="@color/white"
-        app:tabTextColor="@color/white" />
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabs" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:shimmer_auto_start="true">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <include layout="@layout/item_placeholder" />
+                <include layout="@layout/item_placeholder" />
+                <include layout="@layout/item_placeholder" />
+                <include layout="@layout/item_placeholder" />
+            </LinearLayout>
+        </ScrollView>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
