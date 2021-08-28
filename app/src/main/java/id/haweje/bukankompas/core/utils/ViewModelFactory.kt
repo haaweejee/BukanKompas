@@ -3,6 +3,7 @@ package id.haweje.bukankompas.core.utils
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import id.haweje.bukankompas.account.BookmarkViewModel
 import id.haweje.bukankompas.core.data.NewsRepository
 import id.haweje.bukankompas.core.di.Injection
 import id.haweje.bukankompas.detail.DetailNewsViewModel
@@ -31,6 +32,9 @@ class ViewModelFactory private constructor(private val newsRepository: NewsRepos
             }
             modelClass.isAssignableFrom(DetailNewsViewModel::class.java) ->{
                 DetailNewsViewModel(newsRepository) as T
+            }
+            modelClass.isAssignableFrom(BookmarkViewModel::class.java) -> {
+                BookmarkViewModel(newsRepository) as T
             }
             else -> throw IllegalArgumentException("Unknown Viewmodel class: " + modelClass.name)
         }

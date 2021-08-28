@@ -1,11 +1,14 @@
 package id.haweje.bukankompas.core.data.source.local.entity
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 
-@Entity(tableName = "headlines")
-data class HeadlinesEntity(
+@Parcelize
+@Entity(tableName = "news")
+data class LocalNewsEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     val id : Int = 0,
@@ -16,5 +19,5 @@ data class HeadlinesEntity(
     val urlToImage: String? = null,
     val publishedAt: String? = null,
     val content: String? = null,
-    var bookmarked: Boolean? = false
-)
+    var bookmarked: Boolean = false
+): Parcelable

@@ -1,27 +1,23 @@
 package id.haweje.bukankompas.detail
 
 import android.os.Bundle
-import android.view.Menu
+import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import id.haweje.bukankompas.R
+import id.haweje.bukankompas.core.data.source.local.entity.LocalNewsEntity
+import id.haweje.bukankompas.core.utils.ViewModelFactory
 import id.haweje.bukankompas.databinding.ActivityDetailBinding
 
 class DetailActivity : AppCompatActivity() {
 
     companion object{
-        const val EXTRA_TITLE = "EXTRA TITLE"
-        const val EXTRA_DESC = "EXTRA DESC"
-        const val EXTRA_IMAGE = "EXTRA IMAGE"
-        const val EXTRA_AUTHOR = "EXTRA AUTHOR"
-        const val EXTRA_DATE = "EXTRA DATE"
-        const val EXTRA_URL = "EXTRA URL"
-        const val EXTRA_CONTENT = "EXTRA CONTENT"
-        const val EXTRA_ID = "EXTRA ID"
+        const val EXTRA_DATA = "EXTRA DATA"
     }
 
     private lateinit var binding : ActivityDetailBinding
-    private var menu: Menu? = null
+    private lateinit var viewModel: DetailNewsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,29 +27,35 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        val factory = ViewModelFactory.getInstance(application)
+        viewModel = ViewModelProvider(this, factory)[DetailNewsViewModel::class.java]
 
-        getData()
+
+        val detailNews = intent.getParcelableExtra<LocalNewsEntity>(EXTRA_DATA)
+        getData(detailNews)
     }
 
-    private fun getData(){
-        val title = intent.getStringExtra(EXTRA_TITLE)
-        binding.tvTitleNewsId.text = title
+    private fun getData(detailNews : LocalNewsEntity?){
+        detailNews.let {
+            binding.webView.apply {
+                webViewClient = WebViewClient()
+                detailNews?.url?.let { news -> loadUrl(news) }
+            }
 
-        val desc = intent.getStringExtra(EXTRA_DESC)
-        binding.tvDescNewsId.text = desc
+            var statusBookmark = detailNews?.bookmarked
+            if (statusBookmark != null) {
+                setStatusBookmark(statusBookmark)
+            }
 
-        val author = intent.getStringExtra(EXTRA_AUTHOR)
-        val date = intent.getStringExtra(EXTRA_DATE)
-        binding.tvAuthorsAndDateNewsId.text = "Oleh $author - $date"
+            binding.btnBookmark.setOnClickListener {
+                statusBookmark = !statusBookmark!!
+                if (detailNews != null) {
+                    viewModel.setBookmark(detailNews, statusBookmark!!)
+                }
+                setStatusBookmark(statusBookmark!!)
+            }
 
-        val content = intent.getStringExtra(EXTRA_CONTENT)
-        binding.tvContentNewsId.text = content
-
-        val image = intent.getStringExtra(EXTRA_IMAGE)
-        Glide.with(this)
-            .load(image)
-            .centerCrop()
-            .into(binding.imgNewsId)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -61,9 +63,12 @@ class DetailActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_detail, menu)
-        this.menu = menu
-        return super.onCreateOptionsMenu(menu)
+    private fun setStatusBookmark(statusBookmark: Boolean) {
+        if (statusBookmark) {
+            binding.btnBookmark.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_bookmarked))
+        } else {
+            binding.btnBookmark.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_bookmark))
+        }
     }
+
 }

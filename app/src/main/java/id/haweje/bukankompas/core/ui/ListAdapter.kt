@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import id.haweje.bukankompas.core.data.source.local.entity.HeadlinesEntity
+import id.haweje.bukankompas.core.data.source.local.entity.LocalNewsEntity
 import id.haweje.bukankompas.databinding.ItemNewsCardBinding
 
 class ListAdapter : RecyclerView.Adapter<ListAdapter.ListViewHolder>(){
@@ -17,7 +17,7 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.ListViewHolder>(){
     }
 
     inner class ListViewHolder(private val binding: ItemNewsCardBinding) : RecyclerView.ViewHolder(binding.root) {
-        internal fun bind(news : HeadlinesEntity){
+        internal fun bind(news : LocalNewsEntity){
             binding.root.setOnClickListener { onItemClickNewsCallback?.onItemClickedNews(news) }
             binding.titleNewsId.text = news.title
             binding.titleDescriptionId.text = news.description
@@ -40,9 +40,9 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.ListViewHolder>(){
 
     override fun getItemCount(): Int = listNews.size
 
-    private val listNews = ArrayList<HeadlinesEntity>()
+    private val listNews = ArrayList<LocalNewsEntity>()
 
-    fun setNews(news: List<HeadlinesEntity>){
+    fun setNews(news: List<LocalNewsEntity>){
         listNews.clear()
         listNews.addAll(news)
         notifyDataSetChanged()
@@ -54,6 +54,6 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.ListViewHolder>(){
 }
 
 interface OnItemClickNewsCallback {
-    fun onItemClickedNews(news: HeadlinesEntity)
+    fun onItemClickedNews(news: LocalNewsEntity)
 }
 

@@ -43,27 +43,6 @@ class RemoteDataSource {
             })
         return resultIndonesiaNews
     }
-
-    fun getIndonesiaTechNews() : LiveData<ApiResponse<List<Article>>>{
-        val resultIndonesiaTechNews = MutableLiveData<ApiResponse<List<Article>>>()
-        RetrofitClient.apiInstance
-            .getAllTechNewsIndonesia()
-            .enqueue(object : Callback<NewsResponse>{
-                override fun onResponse(
-                    call: Call<NewsResponse>,
-                    response: Response<NewsResponse>
-                ) {
-                    resultIndonesiaTechNews.value = ApiResponse.success(response.body()!!.articles)
-                    Log.d(Constanta.SUCCESS, response.code().toString())
-                }
-
-                override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
-                    Log.d(Constanta.FAIL, t.message.toString())
-                }
-            })
-        return resultIndonesiaTechNews
-    }
-
     interface loadNewsListCallback{
         fun onLoadNews(response: List<Article>?)
     }

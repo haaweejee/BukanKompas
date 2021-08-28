@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import id.haweje.bukankompas.account.AccountFragment
 import id.haweje.bukankompas.databinding.ActivityMainBinding
-import id.haweje.bukankompas.home.HomeFragment
+import id.haweje.bukankompas.home.HeadlinesFragment
 
 @Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
@@ -17,11 +17,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setCurrentFragment(HomeFragment())
+        setCurrentFragment(HeadlinesFragment())
 
         binding.navView.setOnNavigationItemSelectedListener {
             when(it.itemId) {
-                R.id.navigation_home -> setCurrentFragment(HomeFragment())
+                R.id.navigation_home -> setCurrentFragment(HeadlinesFragment())
                 R.id.navigation_account -> setCurrentFragment(AccountFragment())
             }
             true
